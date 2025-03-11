@@ -35,16 +35,22 @@ public class StepDefinations extends CommonUtils {
 
     }
 
-    @When("user calls {string} with POST http request")
-    public void user_calls_with_post_http_request(String string) {
-        MapAPIresources resourceAPI = MapAPIresources.valueOf(string);
+    @When("user calls {string} with {string} http request")
+    public void user_calls_with_post_http_request(String resource,String method) {
+        MapAPIresources resourceAPI = MapAPIresources.valueOf(resource);
         responseSpec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-        response = addPlaceRequest.queryParam("key","qaclick123").when().post(resourceAPI.getAPIresource().toString())
-                .then().spec(responseSpec).extract().response();
+
+        if(method.equalsIgnoreCase("post")) {
+            response = addPlaceRequest.queryParam("key", "qaclick123").when().post(resourceAPI.getAPIresource());
+        } else if (method.equalsIgnoreCase("get")) {
+            response = addPlaceRequest.when().get(resourceAPI.getAPIresource());
+        }
+
     }
 
     @Then("the API call is success with status code {int}")
     public void the_api_call_is_success_with_status_code(Integer int1) {
+        response.then().spec(responseSpec).extract().response();
         Assert.assertEquals(response.getStatusCode(),200);
     }
 
