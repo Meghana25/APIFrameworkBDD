@@ -10,12 +10,16 @@ import java.io.*;
 import java.util.Properties;
 
 public class CommonUtils {
+    private static RequestSpecification requestSpecification;
     public RequestSpecification requestSpecification() throws IOException {
-        PrintStream log = new PrintStream(new File("Request-Response.txt"));
-        return new RequestSpecBuilder().setBaseUri(getGlobalProperties().getProperty("baseUrl")).setContentType(ContentType.JSON)
-                .addFilter(RequestLoggingFilter.logRequestTo(log))
-                .addFilter(ResponseLoggingFilter.logResponseTo(log))
-                .build();
+        if(requestSpecification == null) {
+            PrintStream log = new PrintStream(new File("Request-Response.txt"));
+            requestSpecification = new RequestSpecBuilder().setBaseUri(getGlobalProperties().getProperty("baseUrl")).setContentType(ContentType.JSON)
+                    .addFilter(RequestLoggingFilter.logRequestTo(log))
+                    .addFilter(ResponseLoggingFilter.logResponseTo(log))
+                    .build();
+        }
+        return requestSpecification;
     }
     public Properties getGlobalProperties() throws IOException {
         Properties properties = new Properties();

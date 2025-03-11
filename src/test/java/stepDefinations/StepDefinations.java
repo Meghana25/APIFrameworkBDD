@@ -11,9 +11,9 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.junit.Assert;
 import resources.CommonUtils;
+import resources.MapAPIresources;
 import resources.TestDataBuild;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
@@ -37,8 +37,9 @@ public class StepDefinations extends CommonUtils {
 
     @When("user calls {string} with POST http request")
     public void user_calls_with_post_http_request(String string) {
+        MapAPIresources resourceAPI = MapAPIresources.valueOf(string);
         responseSpec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-        response = addPlaceRequest.queryParam("key","qaclick123").when().post("/maps/api/place/add/json")
+        response = addPlaceRequest.queryParam("key","qaclick123").when().post(resourceAPI.getAPIresource().toString())
                 .then().spec(responseSpec).extract().response();
     }
 
