@@ -26,7 +26,13 @@ public class StepDefinations extends CommonUtils {
 
     @Given("Add Place Payload")
     public void add_place_payload() throws IOException {
-        addPlaceRequest = given().spec(requestSpecification()).body(dataBuild.addPlacePayload());
+        addPlaceRequest = given().spec(requestSpecification()).body(dataBuild.addPlacePayload("Frontline house","French-IN","29, side layout, cohen 09"));
+    }
+
+    @Given("Add Place Payload with {string}, {string} and {string}")
+    public void add_place_with_updated_values(String name,String language,String address) throws IOException {
+        addPlaceRequest = given().spec(requestSpecification()).body(dataBuild.addPlacePayload(name,language,address));
+
     }
 
     @When("user calls {string} with POST http request")
