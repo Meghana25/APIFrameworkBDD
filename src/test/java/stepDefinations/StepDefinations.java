@@ -14,6 +14,7 @@ import resources.CommonUtils;
 import resources.TestDataBuild;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
 
@@ -24,7 +25,7 @@ public class StepDefinations extends CommonUtils {
     TestDataBuild dataBuild = new TestDataBuild();
 
     @Given("Add Place Payload")
-    public void add_place_payload() throws FileNotFoundException {
+    public void add_place_payload() throws IOException {
         addPlaceRequest = given().spec(requestSpecification()).body(dataBuild.addPlacePayload());
     }
 
