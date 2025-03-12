@@ -1,6 +1,7 @@
 package resources;
 
 import pojo.AddPlace;
+import pojo.DeletePlace;
 import pojo.Location;
 
 import java.util.Arrays;
@@ -23,5 +24,11 @@ public class TestDataBuild {
         addPlace.setWebsite("http://google.com");
         addPlace.setLanguage(language);
         return addPlace;
+    }
+    public DeletePlace deletePlacePayLoad(String place_id)
+    {
+        DeletePlace deletePlace = new DeletePlace();
+        deletePlace.setPlace_id(place_id);
+        return deletePlace;
     }
 }

@@ -20,14 +20,23 @@ import static io.restassured.RestAssured.given;
 
 public class StepDefinations extends CommonUtils {
     private RequestSpecification addPlaceRequest;
+    private RequestSpecification getPlaceRequest;
     private ResponseSpecification responseSpec;
     private Response response;
+    private String place_id;
     TestDataBuild dataBuild = new TestDataBuild();
+    JsonPath jsonPath;
 
     @Given("Add Place Payload")
-    public void add_place_payload() throws IOException {
+    public void delete_place_payload() throws IOException {
         addPlaceRequest = given().spec(requestSpecification()).body(dataBuild.addPlacePayload("Frontline house","French-IN","29, side layout, cohen 09"));
     }
+
+    @Given("Delete Place Payload")
+    public void add_place_payload() throws IOException {
+        addPlaceRequest = given().spec(requestSpecification()).body(dataBuild.deletePlacePayLoad(place_id));
+    }
+
 
     @Given("Add Place Payload with {string}, {string} and {string}")
     public void add_place_with_updated_values(String name,String language,String address) throws IOException {
@@ -41,9 +50,9 @@ public class StepDefinations extends CommonUtils {
         responseSpec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
 
         if(method.equalsIgnoreCase("post")) {
-            response = addPlaceRequest.queryParam("key", "qaclick123").when().post(resourceAPI.getAPIresource());
+            response = addPlaceRequest.when().post(resourceAPI.getAPIresource());
         } else if (method.equalsIgnoreCase("get")) {
-            response = addPlaceRequest.when().get(resourceAPI.getAPIresource());
+            response = getPlaceRequest.when().get(resourceAPI.getAPIresource());
         }
 
     }
@@ -56,9 +65,15 @@ public class StepDefinations extends CommonUtils {
 
     @Then("{string} in response body {string}")
     public void in_response_body(String keyValue, String ExpectedValue) {
-        JsonPath jsonPath = new JsonPath(response.asString());
-        Assert.assertEquals(jsonPath.get(keyValue).toString(),ExpectedValue);
+        Assert.assertEquals(getJsonPath(response,keyValue),ExpectedValue);
+    }
 
+    @Then("verify place_id created maps to {string} using {string}")
+    public void verify_place_id_created_maps_to_using(String name, String resource) throws IOException {
+        place_id = getJsonPath(response,"place_id");
+        getPlaceRequest = given().spec(requestSpecification()).queryParam("place_id",place_id);
+        user_calls_with_post_http_request(resource,"GET");
+        Assert.assertEquals(getJsonPath(response,"name"),name);
     }
 
 }
