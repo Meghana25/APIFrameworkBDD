@@ -14,6 +14,7 @@ public enum MapAPIresources {
    }
 
     public String getAPIresource(){
+        System.out.println(resource);
      return resource;
     }
 }

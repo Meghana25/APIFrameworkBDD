@@ -1,0 +1,7 @@
+To execute this framework using maven commands
+mvn test
+mvn test -Dcucumber.filter.tags="@AddPlace"
+
+
+to get cucumber-html-reports
+mvn verify
