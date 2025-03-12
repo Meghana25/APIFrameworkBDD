@@ -19,11 +19,11 @@ import java.io.IOException;
 import static io.restassured.RestAssured.given;
 
 public class StepDefinations extends CommonUtils {
-    private RequestSpecification addPlaceRequest;
-    private RequestSpecification getPlaceRequest;
-    private ResponseSpecification responseSpec;
-    private Response response;
-    private String place_id;
+    RequestSpecification addPlaceRequest;
+    RequestSpecification getPlaceRequest;
+    ResponseSpecification responseSpec;
+    Response response;
+    static String place_id;
     TestDataBuild dataBuild = new TestDataBuild();
     JsonPath jsonPath;
 

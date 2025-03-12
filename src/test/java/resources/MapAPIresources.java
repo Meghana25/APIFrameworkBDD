@@ -9,13 +9,11 @@ public enum MapAPIresources {
     updatePlaceAPI("/maps/api/place/update/json");
 
    private String resource;
+   MapAPIresources(String resource) {
+       this.resource = resource;
+   }
 
-    MapAPIresources(String resource) {
-     this.resource=resource;
-    }
-
-    public String getAPIresource()
-    {
+    public String getAPIresource(){
      return resource;
     }
 }
